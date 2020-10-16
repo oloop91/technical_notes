@@ -1,0 +1,181 @@
+
+#SETTING UP GIT CONFIGURATION FOR A PROJECT
+
+The convention would be initialise git locally for each folder rather than globally
+
+not sure about the first step - first you have to initialise the git using git init and the repositary command
+
+following steps are 
+$ git config user.name "choose a cool name"
+$ git config user.email "put in the email"
+$ git config core.editor vim
+
+
+check you setting using 
+$ git config --list
+
+to get a specific key value use 
+$ git config <key>  
+
+for example 
+$ git config user.name
+
+
+
+
+
+#HELP COMMANDS
+
+$ git help <verb>
+$ git <verb> --help
+$ man git-<verb>
+
+for help on particular command
+$ git add -h
+
+#CHECKING STATUS
+For checking the state of the files and the branch you are on
+$ git status
+
+$ git status -s
+
+
+
+
+
+#ADDING FILES TO STAGING AREA
+
+To track new files, or to stage old files, “add precisely this content to the next commit” 
+$ git add <file name>
+
+Important note regading git add, consider the following example 
+you add a file foobar.txt to the staging area
+version 1 of foobar.txt
+$ git add foobar.txt
+
+now you modify the foobar.txt and again add foobar.txt to the staging area before committing the earlier staging area
+version 2 of foobar.txt
+$ git add foobar.txt
+and then commit
+$ git commit foobar.txt
+
+Only the version 2 will be stored in the VCS index, i.e. version 1 was deleted when version 2 of foobar.txt was added to the staging area
+
+
+
+
+
+#IGNORING FILES
+$ cat .gitignore
+the above command will show the list of commands which will tell git which files to ignore
+regular expressions are used to tell git which files to ignore
+
+
+
+
+
+#VIEW STAGED AND UNSTAGED CHANGES
+$ git diff
+
+This command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+
+If you want to see what you’ve staged that will go into your next commit, you can use git diff --staged. This command compares your staged changes to your last commit:
+
+$ git diff --staged
+
+
+
+
+
+#COMMIT
+$ git commit
+The above command will open the text editor(entered during configuration - vim) which will ask for comments
+
+$ git commit -m " commit message "
+This will directly take the message from the command
+
+$ git commit -a -m 'Add new benchmarks'
+Adding the -a flag will make Git automatically stage every file that is already tracked before doing the commit and let you skip the git add command
+
+If you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+
+$ git commit -m 'Initial commit'
+$ git add forgotten_file
+$ git commit --amend
+
+
+
+
+
+
+
+#REMOVING FILES
+
+To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The git rm command does that, and also removes the file from your working directory so you don’t see it as an untracked file the next time around.
+It deletes the file, in addition to removing it from being tracked by git
+$ git rm <file_name>
+
+If you want to keep the file in the working tree but remove it from being tracked by git. Particularly when you forgot to add it to .gitignore use the following command
+$ git rm --cached <file_name>
+
+
+
+
+
+#MOVING FILES
+
+To rename a file 
+$ git mv README.md README
+
+The above command is equivalent to 
+$ mv README.md README
+$ git rm README.md
+$ git add README
+
+Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file
+
+Git figures out the change of name implicitly, so it does not matter whether you rename using the first command or rename it direcly, then remove the old file from git and add the new filename
+
+
+
+
+
+#UNMODIFYING A MODIFIED FILE
+
+To discard changes in working directory
+$ git restore <file> 
+
+
+
+#UNSTAGING A STAGED FILE 
+
+$ git restore --staged <file>
+
+
+
+
+
+
+#HOW TO ADD MULTIPLE KEYS FOR DIFFERENT GITHUB ACCOUNTS
+https://medium.com/@xiaolishen/use-multiple-ssh-keys-for-different-github-accounts-on-the-same-computer-7d7103ca8693
+https://gist.github.com/oanhnn/80a89405ab9023894df7
+
+
+#HOW TO UPLOAD EXISTING REPOSITARY TO GITHUB
+https://docs.github.com/en/free-pro-team@latest/github/importing-your-projects-to-github/adding-an-existing-project-to-github-using-the-command-line
+
+$ git init
+$ git add .
+# Adds the files in the local repository and stages them for commit. To unstage a file, use 'git reset HEAD YOUR-FILE'.
+$ git commit -m "First commit"
+# Commits the tracked changes and prepares them to be pushed to a remote repository. To remove this commit and modify the file, use 'git reset --soft HEAD~1' and commit and add the file again.
+$ git remote add origin <remote repository URL>
+# Sets the new remote
+$ git remote -v
+# Verifies the new remote URL
+$ git push -u origin main  #main or master 
+# Pushes the changes in your local repository up to the remote repository you specified as the origin
+use the following command to change the name of the branch
+$ git branch -M main
+# earlier the main branch was called master, but github is changing the name master with "main" to remove any connection with slavery
+# by default when you make a new git repositary in command line it will on "master" branch so keep track
